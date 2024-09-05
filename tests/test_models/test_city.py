@@ -1,31 +1,38 @@
 #!/usr/bin/python3
-"""Unit tests for City class"""
+"""
+Module documentation
+"""
 
-from models.state import State
-from tests.test_models.test_base_model import TestBaseModel
+import unittest
+from models.base_model import BaseModel
 from models.city import City
 
-class TestCity(TestBaseModel):
-    """Test City class"""
 
-    def __init__(self, *args, **kwargs):
-        """Initialize TestCity instance"""
-        super().__init__(*args, **kwargs)
-        self.name = "City"
-        self.value = City
+class TestCity(unittest.TestCase):
+    """ Test the CIty Class """
 
-    def test_state_id_attribute(self):
-        """Test setting the state_id attribute of City"""
-        state = State()
-        new_city = self.value()
-        new_city.state_id = state.id
-        self.assertEqual(type(new_city.state_id), str)
+    def test_instance(self):
+        """ Test instance """
+        obj = City()
+        self.assertIsInstance(obj, City)
 
-    def test_name_attribute(self):
-        """Test setting the name attribute of City"""
-        new_city = self.value()
-        new_city.name = "Batch"
-        self.assertEqual(type(new_city.name), str)
+    def test_is_subclass(self):
+        """test the instance of sub classes"""
+        city = City()
+        self.assertTrue(issubclass(type(city), BaseModel))
 
-if __name__ == '__main__':
+    def test_name(self):
+        """test name"""
+        city = City()
+        self.assertEqual(city.name, "")
+        city.name = "Kigali"
+        self.assertEqual(city.name, "Kigali")
+
+    def test_city_id(self):
+        """test city id"""
+        city = City()
+        self.assertEqual(city.state_id, "")
+
+
+if __name__ == "__main__":
     unittest.main()
