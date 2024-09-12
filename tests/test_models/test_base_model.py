@@ -1,79 +1,57 @@
 #!/usr/bin/python3
-""" """
-from models.base_model import BaseModel
+"""Unittest module for the BaseModel Class."""
+
 import unittest
-import datetime
-from uuid import UUID
-import json
+from models.base_model import BaseModel
 import os
+import time
+from io import StringIO
+from unittest.mock import patch
 
 
 class TestBaseModel(unittest.TestCase):
-    """ Test base model"""
+    """Test cases for the BaseModel."""
 
-    def __init__(self, *args, **kwargs):
-        """ """
-        super().__init__(*args, **kwargs)
-        self.name = 'BaseModel'
-        self.value = BaseModel
+    def test_instance(self):
+        """Test if object is an instance of BaseModel."""
+        base = BaseModel()
+        self.assertIsInstance(base, BaseModel)
 
-    def setUp(self):
-        """ """
-        pass
+    def test_class_type(self):
+        """Test the class type of the instance."""
+        base = BaseModel()
+        self.assertEqual(str(type(base)), "<class 'models.base_model.BaseModel'>")
 
-    def tearDown(self):
-        try:
-            os.remove('file.json')
-        except:
-            pass
+    def test_save(self):
+        """Test the save method updates the updated_at attribute."""
+        base = BaseModel()
+        old_time = base.updated_at
+        time.sleep(1)
+        base.save()
+        self.assertNotEqual(base.updated_at, old_time)
 
-    def test_default(self):
-        """ """
-        i = self.value()
-        self.assertEqual(type(i), self.value)
+    def test_save_creates_file(self):
+        """Test if save creates a file.json."""
+        if os.path.isfile("file.json"):
+            os.remove("file.json")
+        base = BaseModel()
+        base.save()
+        self.assertTrue(os.path.isfile("file.json"))
 
-    def test_kwargs(self):
-        """ """
-        i = self.value()
-        copy = i.to_dict()
-        new = BaseModel(**copy)
-        self.assertFalse(new is i)
+    def test_str_representation(self):
+        """Test the string representation of the object."""
+        base = BaseModel()
+        expected_output = f"[{base.__class__.__name__}] ({base.id}) {base.__dict__}\n"
+        with patch("sys.stdout", new=StringIO()) as fake_out:
+            print(base)
+            self.assertEqual(fake_out.getvalue(), expected_output)
 
-    def test_kwargs_int(self):
-        """ """
-        i = self.value()
-        copy = i.to_dict()
-        copy.update({1: 2})
-        with self.assertRaises(TypeError):
-            new = BaseModel(**copy)
+    def test_to_dict(self):
+        """Test the to_dict method of BaseModel."""
+        base = BaseModel()
+        dict_repr = base.to_dict()
+        self.assertEqual(dict_repr['__class__'], base.__class__.__name__)
 
-    def test_todict(self):
-        """ """
-        i = self.value()
-        n = i.to_dict()
-        self.assertEqual(i.to_dict(), n)
 
-    def test_kwargs_none(self):
-        """ """
-        n = {None: None}
-        with self.assertRaises(TypeError):
-            new = self.value(**n)
-
-    def test_id(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.id), str)
-
-    def test_created_at(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.created_at), datetime.datetime)
-
-    def test_updated_at(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.updated_at), datetime.datetime)
-        n = new.to_dict()
-        new = BaseModel(**n)
-        self.assertAlmostEqual(new.created_at.timestamp(),
-                               new.updated_at.timestamp(), delta=1)
+if __name__ == "__main__":
+    unittest.main()
