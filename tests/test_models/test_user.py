@@ -1,41 +1,66 @@
 #!/usr/bin/python3
-"""Unit tests for User class"""
 
-from tests.test_models.test_base_model import TestBaseModel
+"""Unittest for User Class."""
+
+import unittest
+
 from models.user import User
 
-class TestUser(TestBaseModel):
-    """Test User class"""
+from models.base_model import BaseModel
 
-    def __init__(self, *args, **kwargs):
-        """Initialize TestUser instance"""
-        super().__init__(*args, **kwargs)
-        self.name = "User"
-        self.value = User
 
-    def test_first_name_attribute(self):
-        """Test setting the first_name attribute of User"""
-        new_user = self.value()
-        new_user.first_name = "Chyna"
-        self.assertEqual(type(new_user.first_name), str)
+class TestCity(unittest.TestCase):
+    """Test cases User class."""
 
-    def test_last_name_attribute(self):
-        """Test setting the last_name attribute of User"""
-        new_user = self.value()
-        new_user.last_name = "Chyna"
-        self.assertEqual(type(new_user.last_name), str)
+    def test_instance(self):
+        """test instance."""
+        user = User()
+        self.assertIsInstance(user, User)
 
-    def test_email_attribute(self):
-        """Test setting the email attribute of User"""
-        new_user = self.value()
-        new_user.email = "angoyewally@gmail.com"
-        self.assertEqual(type(new_user.email), str)
+    def test_is_class(self):
+        """test instance."""
+        user = User()
+        self.assertEqual(str(type(user)),
+                         "<class 'models.user.User'>")
 
-    def test_password_attribute(self):
-        """Test setting the password attribute of User"""
-        new_user = self.value()
-        new_user.password = "123aashja"
-        self.assertEqual(type(new_user.password), str)
+    def test_is_subclass(self):
+        """test is_subclass."""
+        user = User()
+        self.assertTrue(issubclass(type(user), BaseModel))
 
-if __name__ == '__main__':
+    def test_id(self):
+        """test email."""
+        my_user = User()
+        self.assertIsNotNone(my_user.id)
+
+    def test_email(self):
+        """test email."""
+        my_user = User()
+        self.assertEqual(my_user.email, "")
+        my_user.email = "airbnb@mail.com"
+        self.assertEqual(my_user.email, "airbnb@mail.com")
+
+    def test_password(self):
+        """test password."""
+        my_user = User()
+        self.assertEqual(my_user.password, "")
+        my_user.password = "root"
+        self.assertEqual(my_user.password, "root")
+
+    def test_first_name(self):
+        """test first name."""
+        my_user = User()
+        self.assertEqual(my_user.first_name, "")
+        my_user.first_name = "Betty"
+        self.assertEqual(my_user.first_name, "Betty")
+
+    def test_last_name(self):
+        """test last name."""
+        my_user = User()
+        self.assertEqual(my_user.last_name, "")
+        my_user.first_name = "Bar"
+        self.assertEqual(my_user.first_name, "Bar")
+
+
+if __name__ == "__main__":
     unittest.main()
