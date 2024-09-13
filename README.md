@@ -3,7 +3,7 @@
 
 # Description of the project
 
-This project is a simple clone of the AirBnB website. The first stage implements a backend interface or console to manage program data(like shell). Console commands allow users to create, update, destroy objects, and manage file storage. 
+This project is a clone of the most famous AirBnB website. The first stage consists of a backend interface or console to manage program data(like shell). with Console commands allow users to create, update, delete objects, and manage file storage. 
 
 # The console - tasks
 -  Put in place a parent class (called BaseModel) to take care of the initialization, serialization and deserialization of  future instances <br>
@@ -21,7 +21,7 @@ The command interpreter helps us to manage the objects of our project by:
 - Retrieving an object from a file, a database etc…
 - Doing operations on objects (count, compute stats, etc…)
 - Updating attributes of an object
-- Destroying an object
+- Deleteing an object
 
 ## How to start the interpreter
 
